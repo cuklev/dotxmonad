@@ -1,0 +1,15 @@
+Config {
+	font = "xft:DejaVu Sans Mono:pixelsize=12",
+	position = TopSize L 100 18,
+	commands = [
+		Run Kbd [("us", "<fc=#7f7fff>EN</fc>"), ("bg(phonetic)", "<fc=#ffff00>BG</fc>")],
+		Run Volume "default" "Master" [
+			"-t","<status>",
+			"--","-O","<fc=#00ff00><volume>%</fc>","-o","<fc=#ff0000><volume>%</fc>"
+		] 10,
+		Run StdinReader
+	],
+	, sepChar = "%"
+	, alignSep = "}{"
+	, template = " <fc=#ff0000>%StdinReader%</fc>}{<fc=#ffffff>   [%default:Master%] [%kbd%]</fc>  "
+}

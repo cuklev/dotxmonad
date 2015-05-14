@@ -1,0 +1,28 @@
+#!/bin/bash
+#xsetroot -cursor_name left_ptr
+#setxkbmap "us+bg(phonetic):2+group(alt_shift_toggle)"
+#synclient {Vert,Horiz}{Edge,TwoFinger}Scroll=1 TapButton{1=1,2=3,3=2}
+#/usr/libexec/gnome-settings-daemon &
+#trayer-srg --edge top --align right --widthtype request --height 18 --transparent true --alpha 0 --tint 0x7f7f7f --distance 108 --distancefrom right --padding 16 --SetPartialStrut true &
+xrdb -merge ~/.xmonad/Xresources & # Automate merge or sth
+start-pulseaudio-x11 &
+compton -m .9 &
+sh ~/.fehbg &
+/usr/libexec/polkit-gnome-authentication-agent-1 &
+~/.cache/taffybar/taffybar-linux-x86_64 &
+#transmission-gtk -m &
+#utox &
+gnome-terminal &
+nm-applet &
+parcellite &
+pnmixer &
+utox &
+#qtox &
+#sleep 10
+xautolock -time 10 -locker slimlock -detectsleep &
+#xscreensaver -nosplash &
+#sleep 10
+#pidof chrome || (chromium &)
+#skype &
+#skype-call-recorder &
+#dropbox start
