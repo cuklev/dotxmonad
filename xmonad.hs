@@ -71,6 +71,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm, xK_F7), spawn "synclient TouchpadOff=`synclient | grep TouchpadOff | grep -q 1; echo $?`")
     , ((mm, xK_F8), spawn "sleep 0.1; xset dpms force off")
     , ((mm, xK_F9), spawn "systemctl suspend -i")
+    , ((mm, xK_F10), spawn "xautolock -locknow; systemctl suspend -i")
 --    , ((mm, xK_F10), spawn "systemctl hibernate -i")
 --    , ((mm, xK_F11), spawn "systemctl reboot -i")
 --    , ((mm, xK_F12), spawn "systemctl poweroff -i")
@@ -161,11 +162,11 @@ xmonadConfig = pagerHints $ defaultConfig
         , className =? "Conky" -?> doIgnore
         , className =? "Wine" -?> doFloat
         ]
-    , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook -- <+> ewmhDesktopsEventHook
+    , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook <+> ewmhDesktopsEventHook
     , layoutHook = avoidStruts $ lessBorders Screen layout
-    --, startupHook = ewmhDesktopsStartup
+--  , startupHook = ewmhDesktopsStartup
     , logHook = do
-          updatePointer (0.5, 0.5) (0.2, 0.2)
+          updatePointer (0.5, 0.5) (0.7, 0.7)
           ewmhDesktopsLogHook
     }
 
