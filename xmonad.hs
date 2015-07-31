@@ -23,14 +23,23 @@ import XMonad.Layout.LimitWindows
 
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
-import XMonad.Util.Replace
 
 -- TaffyBar
 import XMonad.Hooks.EwmhDesktops --(ewmh)
 import System.Taffybar.Hooks.PagerHints (pagerHints)
 
+import XMonad.Prompt
+import XMonad.Prompt.Shell
+
+-- floatnext
+-- position store float
+-- magnifier
+-- hooks.place
+
+--import XMonad.Layout.Magnifier
+
 mulcol = multiCol [1,3] 4 0.01 0.5
-layout = mulcol ||| trackFloating Full ||| limitSelect 1 4 mulcol
+layout =  mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
@@ -40,13 +49,19 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
 
     , ((mm, xK_w), spawn $ XMonad.terminal conf)
     , ((mm, xK_e), spawn "nautilus")
-    , ((mm .|. shiftMask, xK_e), spawn "pcmanfm")
-    , ((mm, xK_r), spawn "gmrun")
-    , ((mm .|. shiftMask, xK_r), spawn "gnome-do")
+    , ((mm, xK_r), shellPrompt defaultXPConfig
+            { bgColor = "black"
+            , fgColor = "white"
+            , bgHLight = "white"
+            , fgHLight = "black"
+            , borderColor = "cyan"
+            , height = 20
+            , font = "xft:Sans:pixelsize=12"
+            , alwaysHighlight = True
+            })
 
-    , ((mm, xK_a), sendMessage NextLayout)
-    , ((mm, xK_s), sendMessage FirstLayout)
-    , ((mm .|. shiftMask, xK_s), setLayout $ XMonad.layoutHook conf)
+    , ((mm, xK_space), sendMessage NextLayout)
+    , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
     , ((mm, xK_d), warpToWindow 0.5 0.5)
     , ((mm .|. shiftMask, xK_d), warpToScreen 0 0.5 0.5)
     , ((mm .|. controlMask, xK_d), warpToScreen 1 0.5 0.5)
@@ -56,26 +71,22 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm .|. shiftMask, xK_z), spawn "transset --actual 0")
     , ((mm, xK_x), spawn "transset --actual --inc .05")
     , ((mm .|. shiftMask, xK_x), spawn "transset --actual 1")
-    , ((mm, xK_c), spawn "pavucontrol")
-    , ((mm .|. shiftMask, xK_c), spawn "gnome-calculator")
+    , ((mm, xK_s), spawn "pavucontrol")
 
     , ((mm, xK_F1), spawn "xautolock -locknow")
     , ((mm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
---    , ((mm .|. controlMask, xK_F1), spawn "xautolock -disable")
---    , ((mm, xK_F2), spawn "killall -9 skype")
     , ((mm, xK_F2), withFocused demanage)
     , ((mm, xK_F3), spawn "xmonad --restart")
     , ((mm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
     , ((mm, xK_F5), refresh)
---    , ((mm, xK_F6), spawn "killall gnome-settings-daemon; exec /usr/libexec/gnome-settings-daemon")
-    , ((mm, xK_F7), spawn "synclient TouchpadOff=`synclient | grep TouchpadOff | grep -q 1; echo $?`")
     , ((mm, xK_F8), spawn "sleep 0.1; xset dpms force off")
-    , ((mm, xK_F9), spawn "systemctl suspend -i")
-    , ((mm, xK_F10), spawn "xautolock -locknow; systemctl suspend -i")
+    , ((mm, xK_F9), spawn "xautolock -locknow; systemctl suspend -i")
 --    , ((mm, xK_F10), spawn "systemctl hibernate -i")
 --    , ((mm, xK_F11), spawn "systemctl reboot -i")
 --    , ((mm, xK_F12), spawn "systemctl poweroff -i")
 
+    , ((mm, xK_Tab), windows W.focusUp)
+    , ((mm .|. shiftMask, xK_Tab), windows W.focusDown)
     , ((mm, xK_k), windows W.focusUp)
     , ((mm, xK_j), windows W.focusDown)
     , ((mm, xK_m), windows W.focusMaster)
@@ -83,18 +94,19 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm .|. shiftMask, xK_j), windows W.swapDown)
     , ((mm .|. shiftMask, xK_m), windows W.swapMaster)
 
-    , ((mm, xK_space), windows W.shiftMaster)
+--    , ((mm, xK_space), windows W.shiftMaster)
     , ((mm, xK_h), sendMessage Shrink)
     , ((mm, xK_l), sendMessage Expand)
     , ((mm, xK_comma), sendMessage $ IncMasterN 1)
     , ((mm, xK_period), sendMessage $ IncMasterN (-1))
     , ((mm, xK_i), increaseLimit)
     , ((mm, xK_o), decreaseLimit)
-    , ((mm, xK_Tab), withFocused $ windows . W.sink)
+    , ((mm, xK_t), withFocused $ windows . W.sink)
 
     , ((controlMask .|. mod1Mask, xK_w), spawn "xdotool keydown Super")
     , ((mm, xK_v), spawn "xdotool keyup Super")
 
+    , ((0, 0x1008ffa9), spawn "synclient TouchpadOff=$(synclient | grep -c 'TouchpadOff.*0')")
     , ((0, 0x1008ff11), spawn "amixer set Master 5%-")
     , ((0, 0x1008ff12), spawn "amixer set Master toggle")
     , ((0, 0x1008ff13), spawn "amixer set Master 5%+")
@@ -118,8 +130,6 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
 
     , ((mm, xK_Left), prevWS)
     , ((mm, xK_Right), nextWS)
-
-    , ((mm, xK_slash), restart "openbox" False)
     ]
     ++
     [ ((m .|. mm, k), windows $ f i)
