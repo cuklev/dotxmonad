@@ -3,10 +3,8 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.PerWindowKbdLayout
-import XMonad.Util.Run (spawnPipe)
 import System.IO
 
-import XMonad.Actions.Warp
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.FlexibleResize
@@ -16,7 +14,6 @@ import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.CycleWS
 
 import XMonad.Layout.NoBorders
---import XMonad.Layout.Fullscreen
 import XMonad.Layout.MultiColumns
 import XMonad.Layout.TrackFloating
 import XMonad.Layout.LimitWindows
@@ -24,22 +21,20 @@ import XMonad.Layout.LimitWindows
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
--- TaffyBar
-import XMonad.Hooks.EwmhDesktops --(ewmh)
-import System.Taffybar.Hooks.PagerHints (pagerHints)
+import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 
 -- floatnext
 -- position store float
--- magnifier
 -- hooks.place
 
---import XMonad.Layout.Magnifier
-
-mulcol = multiCol [1,3] 4 0.01 0.5
-layout =  mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
+--layout = tall ||| Mirror tall ||| mulcol ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
+layout = tall ||| Mirror tall ||| trackFloating Full
+    where
+        tall = Tall 1 0.01 0.5
+        mulcol = multiCol [1, 3] 4 0.01 0.5
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
@@ -47,8 +42,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm .|. shiftMask, xK_q), kill1)
     , ((mm .|. controlMask, xK_q), kill1)
 
-    , ((mm, xK_w), spawn $ XMonad.terminal conf)
-    , ((mm, xK_e), spawn "nautilus")
+    , ((mm, xK_Return), spawn $ XMonad.terminal conf)
     , ((mm, xK_r), shellPrompt defaultXPConfig
             { bgColor = "black"
             , fgColor = "white"
@@ -56,21 +50,17 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
             , fgHLight = "black"
             , borderColor = "cyan"
             , height = 20
-            , font = "xft:Sans:pixelsize=12"
-            , alwaysHighlight = True
+            , font = "xft:DejaVu:pixelsize=12"
             })
 
     , ((mm, xK_space), sendMessage NextLayout)
     , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
-    , ((mm, xK_d), warpToWindow 0.5 0.5)
-    , ((mm .|. shiftMask, xK_d), warpToScreen 0 0.5 0.5)
-    , ((mm .|. controlMask, xK_d), warpToScreen 1 0.5 0.5)
     , ((mm, xK_f), sendMessage ToggleStruts)
 
-    , ((mm, xK_z), spawn "transset --actual --dec .05")
-    , ((mm .|. shiftMask, xK_z), spawn "transset --actual 0")
-    , ((mm, xK_x), spawn "transset --actual --inc .05")
-    , ((mm .|. shiftMask, xK_x), spawn "transset --actual 1")
+    , ((mm, xK_Page_Down), spawn "transset --actual --dec .05")
+    , ((mm .|. shiftMask, xK_Page_Down), spawn "transset --actual 0")
+    , ((mm, xK_Page_Up), spawn "transset --actual --inc .05")
+    , ((mm .|. shiftMask, xK_Page_Up), spawn "transset --actual 1")
     , ((mm, xK_s), spawn "pavucontrol")
 
     , ((mm, xK_F1), spawn "xautolock -locknow")
@@ -137,20 +127,20 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, controlMask)]
     ]
     ++
-        [ ((m .|. mm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_Page_Down, xK_Page_Up] [0..]
+    [ ((m .|. mm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+        | (key, sc) <- zip [xK_w, xK_e] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
 
 myMouse :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
 myMouse (XConfig {XMonad.modMask = mm}) = M.fromList
     [ ((mm, button1), (\w -> focus w >> mouseMoveWindow w >> FS.snapMagicMove (Just 20) (Just 20) w))
-    , ((mm .|. shiftMask, button1), (\w -> focus w >> mouseMoveWindow w >> FS.snapMagicResize [FS.L,FS.R,FS.U,FS.D] (Just 20) (Just 20) w))
+    , ((mm .|. shiftMask, button1), (\w -> focus w >> mouseMoveWindow w >> FS.snapMagicResize [FS.L, FS.R, FS.U, FS.D] (Just 20) (Just 20) w))
     , ((mm, button3), (\w -> focus w >> mouseResizeEdgeWindow 0.5 w))
     , ((mm .|. shiftMask, button3), (\w -> focus w >> Sqr.mouseResizeWindow w True))
     ]
 
-xmonadConfig = pagerHints $ defaultConfig
+xmonadConfig = defaultConfig
     { modMask = mod4Mask
     , terminal = "gnome-terminal"
     , keys = myKeys
@@ -172,12 +162,18 @@ xmonadConfig = pagerHints $ defaultConfig
         , className =? "Conky" -?> doIgnore
         , className =? "Wine" -?> doFloat
         ]
-    , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook <+> ewmhDesktopsEventHook
+    , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook
     , layoutHook = avoidStruts $ lessBorders Screen layout
---  , startupHook = ewmhDesktopsStartup
     , logHook = do
-          updatePointer (0.5, 0.5) (0.7, 0.7)
-          ewmhDesktopsLogHook
+        updatePointer (0.5, 0.5) (0.7, 0.7)
+        dynamicLogString xmobarPP
+            { ppTitle = xmobarColor "cyan" "" . shorten 100
+            , ppLayout = xmobarColor "green" ""
+            , ppSep = xmobarColor "gray" "" " | "
+            , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
+            , ppUrgent = xmobarColor "orange" "" . wrap "*" "*"
+            }
+            >>= xmonadPropLog
     }
 
 main = xmonad xmonadConfig
