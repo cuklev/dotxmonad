@@ -31,7 +31,7 @@ import XMonad.Prompt.Shell
 -- hooks.place
 
 --layout = tall ||| Mirror tall ||| mulcol ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
-layout = tall ||| Mirror tall ||| trackFloating Full
+layout = tall ||| Mirror tall ||| mulcol ||| trackFloating Full
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
@@ -63,14 +63,14 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm .|. shiftMask, xK_Page_Up), spawn "transset --actual 1")
     , ((mm, xK_s), spawn "pavucontrol")
 
-    , ((mm, xK_F1), spawn "xautolock -locknow")
-    , ((mm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
-    , ((mm, xK_F2), withFocused demanage)
+    , ((mm, xK_F1), spawn "xscreensaver-command -lock")
+--    , ((mm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
+--    , ((mm, xK_F2), withFocused demanage)
     , ((mm, xK_F3), spawn "xmonad --restart")
     , ((mm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
     , ((mm, xK_F5), refresh)
     , ((mm, xK_F8), spawn "sleep 0.1; xset dpms force off")
-    , ((mm, xK_F9), spawn "xautolock -locknow; systemctl suspend -i")
+    , ((mm, xK_F9), spawn "xscreensaver-command -lock; systemctl suspend -i")
 --    , ((mm, xK_F10), spawn "systemctl hibernate -i")
 --    , ((mm, xK_F11), spawn "systemctl reboot -i")
 --    , ((mm, xK_F12), spawn "systemctl poweroff -i")
