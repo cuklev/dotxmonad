@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cp ~/.xmonad/xmonad.hs
+cp ~/.xmonad/Xresources
+cp ~/.xmonad/xmobar
+cp ~/.xmonad/start
+mkdir -p lib/XMonad/Hooks
+cp ~/.xmonad/lib/XMonad/Hooks/PerWindowKbdLayout.hs
+
+git status
