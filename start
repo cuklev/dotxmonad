@@ -15,5 +15,5 @@ gnome-terminal &
 nm-applet &
 parcellite &
 utox &
-xautolock -time 10 -locker slock -detectsleep &
-#xscreensaver -nosplash &
+#xautolock -time 10 -locker slock -detectsleep &
+xscreensaver -nosplash &
