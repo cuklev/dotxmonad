@@ -31,7 +31,7 @@ import XMonad.Prompt.Shell
 -- hooks.place
 
 --layout = tall ||| Mirror tall ||| mulcol ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
-layout = tall ||| Mirror tall ||| mulcol ||| trackFloating Full
+layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
@@ -57,10 +57,10 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
     , ((mm, xK_f), sendMessage ToggleStruts)
 
-    , ((mm, xK_Page_Down), spawn "transset --actual --dec .05")
-    , ((mm .|. shiftMask, xK_Page_Down), spawn "transset --actual 0")
-    , ((mm, xK_Page_Up), spawn "transset --actual --inc .05")
-    , ((mm .|. shiftMask, xK_Page_Up), spawn "transset --actual 1")
+    , ((mm, xK_z), spawn "transset --actual --dec .05")
+    , ((mm .|. shiftMask, xK_z), spawn "transset --actual 0")
+    , ((mm, xK_x), spawn "transset --actual --inc .05")
+    , ((mm .|. shiftMask, xK_x), spawn "transset --actual 1")
     , ((mm, xK_s), spawn "pavucontrol")
 
     , ((mm, xK_F1), spawn "xscreensaver-command -lock")
@@ -118,8 +118,8 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((controlMask, xK_KP_Down), spawn "xdotool click 2")
     , ((controlMask, xK_KP_Page_Down), spawn "xdotool click 3")
 
-    , ((mm, xK_Left), prevWS)
-    , ((mm, xK_Right), nextWS)
+    , ((mm, xK_w), prevWS)
+    , ((mm, xK_e), nextWS)
     ]
     ++
     [ ((m .|. mm, k), windows $ f i)
@@ -128,7 +128,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     ]
     ++
     [ ((m .|. mm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e] [0..]
+        | (key, sc) <- zip [xK_Page_Down, xK_Page_Up] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
 
