@@ -30,10 +30,56 @@ import XMonad.Prompt.Shell
 -- position store float
 -- hooks.place
 
+main = xmonad defaultConfig
+    { modMask = mod4Mask
+    , terminal = "gnome-terminal"
+    , keys = myKeys
+    , mouseBindings = myMouse
+    , normalBorderColor = "#dddddd"
+    , focusedBorderColor = "#0000ff"
+    , workspaces = words "1 2 3 4 5 6 7 8 9 0"
+    , manageHook = manageDocks <+> composeOne
+        [ isFullscreen -?> doFullFloat
+        , title =? "ettercap" -?> doFloat
+        , isDialog -?> doCenterFloat
+--        , className =? "Chromium-browser" -?> doShift "2"
+        , className =? "Firefox" -?> doShift "2"
+--        , className =? "Taffybar-linux-x86_64" -?> doIgnore
+--        , className =? "Skype" -?> doShift "3"
+--        , className =? "utox" -?> doShift "3"
+        , className =? "qTox" -?> doShift "3"
+        , className =? "Transmission-gtk" -?> doShift "8"
+--        , className =? "Conky" -?> doIgnore
+--        , className =? "Wine" -?> doFloat
+        ]
+    , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook
+    , layoutHook = avoidStruts $ lessBorders Screen layout
+    , logHook = do
+        updatePointer (0.5, 0.5) (0.7, 0.7)
+        dynamicLogString xmobarPP
+            { ppTitle = xmobarColor "cyan" "" . shorten 100
+            , ppLayout = xmobarColor "green" ""
+            , ppSep = xmobarColor "gray" "" " | "
+            , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
+            , ppUrgent = xmobarColor "orange" "" . wrap "*" "*"
+            }
+            >>= xmonadPropLog
+    }
+
 layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol -- ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
+
+runCommand = shellPrompt defaultXPConfig
+    { bgColor = "black"
+    , fgColor = "white"
+    , bgHLight = "white"
+    , fgHLight = "black"
+    , borderColor = "cyan"
+    , height = 20
+    , font = "xft:DejaVu:pixelsize=12"
+    }
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
@@ -42,15 +88,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm .|. controlMask, xK_q), kill1)
 
     , ((mm, xK_Return), spawn $ XMonad.terminal conf)
-    , ((mm, xK_r), shellPrompt defaultXPConfig
-            { bgColor = "black"
-            , fgColor = "white"
-            , bgHLight = "white"
-            , fgHLight = "black"
-            , borderColor = "cyan"
-            , height = 20
-            , font = "xft:DejaVu:pixelsize=12"
-            })
+    , ((mm, xK_r), runCommand)
 
     , ((mm, xK_space), sendMessage NextLayout)
     , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
@@ -138,41 +176,3 @@ myMouse (XConfig {XMonad.modMask = mm}) = M.fromList
     , ((mm, button3), (\w -> focus w >> mouseResizeEdgeWindow 0.5 w))
     , ((mm .|. shiftMask, button3), (\w -> focus w >> Sqr.mouseResizeWindow w True))
     ]
-
-xmonadConfig = defaultConfig
-    { modMask = mod4Mask
-    , terminal = "gnome-terminal"
-    , keys = myKeys
-    , mouseBindings = myMouse
-    , normalBorderColor = "#dddddd"
-    , focusedBorderColor = "#0000ff"
-    , workspaces = words "1 2 3 4 5 6 7 8 9 0"
-    , manageHook = manageDocks <+> composeOne
-        [ isFullscreen -?> doFullFloat
-        , title =? "ettercap" -?> doFloat
-        , isDialog -?> doCenterFloat
---        , className =? "Chromium-browser" -?> doShift "2"
-        , className =? "Firefox" -?> doShift "2"
---        , className =? "Taffybar-linux-x86_64" -?> doIgnore
---        , className =? "Skype" -?> doShift "3"
---        , className =? "utox" -?> doShift "3"
-        , className =? "qTox" -?> doShift "3"
-        , className =? "Transmission-gtk" -?> doShift "8"
---        , className =? "Conky" -?> doIgnore
---        , className =? "Wine" -?> doFloat
-        ]
-    , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook
-    , layoutHook = avoidStruts $ lessBorders Screen layout
-    , logHook = do
-        updatePointer (0.5, 0.5) (0.7, 0.7)
-        dynamicLogString xmobarPP
-            { ppTitle = xmobarColor "cyan" "" . shorten 100
-            , ppLayout = xmobarColor "green" ""
-            , ppSep = xmobarColor "gray" "" " | "
-            , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
-            , ppUrgent = xmobarColor "orange" "" . wrap "*" "*"
-            }
-            >>= xmonadPropLog
-    }
-
-main = xmonad xmonadConfig
