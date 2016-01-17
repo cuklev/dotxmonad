@@ -30,8 +30,7 @@ import XMonad.Prompt.Shell
 -- position store float
 -- hooks.place
 
---layout = tall ||| Mirror tall ||| mulcol ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
-layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol
+layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol -- ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
@@ -152,15 +151,15 @@ xmonadConfig = defaultConfig
         [ isFullscreen -?> doFullFloat
         , title =? "ettercap" -?> doFloat
         , isDialog -?> doCenterFloat
-        , className =? "Chromium-browser" -?> doShift "2"
+--        , className =? "Chromium-browser" -?> doShift "2"
         , className =? "Firefox" -?> doShift "2"
-        , className =? "Taffybar-linux-x86_64" -?> doIgnore
-        , className =? "Skype" -?> doShift "3"
-        , className =? "utox" -?> doShift "3"
+--        , className =? "Taffybar-linux-x86_64" -?> doIgnore
+--        , className =? "Skype" -?> doShift "3"
+--        , className =? "utox" -?> doShift "3"
         , className =? "qTox" -?> doShift "3"
         , className =? "Transmission-gtk" -?> doShift "8"
-        , className =? "Conky" -?> doIgnore
-        , className =? "Wine" -?> doFloat
+--        , className =? "Conky" -?> doIgnore
+--        , className =? "Wine" -?> doFloat
         ]
     , handleEventHook = fullscreenEventHook <+> perWindowKbdLayout <+> docksEventHook
     , layoutHook = avoidStruts $ lessBorders Screen layout
