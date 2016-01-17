@@ -1,10 +1,8 @@
 #!/bin/bash
-xsetroot -cursor_name left_ptr
-#setxkbmap "us+bg(phonetic):2+group(alt_shift_toggle)"
-#synclient {Vert,Horiz}{Edge,TwoFinger}Scroll=1 TapButton{1=1,2=2,3=3}
-#/usr/libexec/gnome-settings-daemon &
-#testing without this
-#xrdb -merge ~/.xmonad/Xresources & # Automate merge or sth
+xsetroot -cursor_name left_ptr &
+setxkbmap "us+bg(phonetic):2+group(alt_shift_toggle)" &
+synclient {Vert,Horiz}{Edge,TwoFinger}Scroll=1 TapButton{1=1,2=2,3=3} &
+xrdb -merge ~/.xmonad/Xresources & # Automate merge or sth
 start-pulseaudio-x11 &
 compton -m .9 &
 sh ~/.fehbg &
@@ -13,7 +11,6 @@ stalonetray -t --tint-color black --tint-level 160 -i 24 --geometry 6x1-0+0 --ma
 xmobar ~/.xmonad/xmobar &
 gnome-terminal &
 nm-applet &
-parcellite &
-utox &
-#xautolock -time 10 -locker slock -detectsleep &
+gpaste start &
+qtox &
 xscreensaver -nosplash &
