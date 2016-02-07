@@ -17,6 +17,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.MultiColumns
 import XMonad.Layout.TrackFloating
 import XMonad.Layout.LimitWindows
+import XMonad.Layout.Maximize
 
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
@@ -66,7 +67,7 @@ main = xmonad defaultConfig
             >>= xmonadPropLog
     }
 
-layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol -- ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
+layout = maximize (tall ||| Mirror tall) ||| trackFloating Full ||| maximize mulcol -- ||| Mirror mulcol ||| trackFloating Full ||| limitSelect 1 2 mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
@@ -89,6 +90,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
 
     , ((mm, xK_Return), spawn $ XMonad.terminal conf)
     , ((mm, xK_r), runCommand)
+    , ((mm, xK_backslash), withFocused (sendMessage . maximizeRestore))
 
     , ((mm, xK_space), sendMessage NextLayout)
     , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
