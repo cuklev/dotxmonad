@@ -115,8 +115,8 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
 --    , ((mm, xK_F11), spawn "systemctl reboot -i")
 --    , ((mm, xK_F12), spawn "systemctl poweroff -i")
 
-    , ((mm, xK_Tab), windows W.focusUp)
-    , ((mm .|. shiftMask, xK_Tab), windows W.focusDown)
+    , ((mm, xK_Tab), windows W.focusDown)
+    , ((mm .|. shiftMask, xK_Tab), windows W.focusUp)
     , ((mm, xK_k), windows W.focusUp)
     , ((mm, xK_j), windows W.focusDown)
     , ((mm, xK_m), windows W.focusMaster)
