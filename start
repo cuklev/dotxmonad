@@ -8,9 +8,10 @@ compton -m .9 &
 sh ~/.fehbg &
 /usr/libexec/polkit-gnome-authentication-agent-1 &
 stalonetray -t --tint-color black --tint-level 160 -i 24 --geometry 6x1-0+0 --max-geometry 6x1 --grow-gravity E --icon-gravity NE --scrollbars horizontal &
-xmobar ~/.xmonad/xmobar &
 gnome-terminal &
 nm-applet &
 gpaste start &
-qtox &
 xscreensaver -nosplash &
+utox &
+xmobar ~/.xmonad/xmobar &
+xrandr --setprovideroffloadsink 1 0
