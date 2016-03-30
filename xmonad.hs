@@ -11,7 +11,6 @@ import XMonad.Actions.FlexibleResize
 import qualified XMonad.Actions.FloatSnap as FS
 import XMonad.Actions.DeManage
 import qualified XMonad.Actions.ConstrainedResize as Sqr
-import XMonad.Actions.CycleWS
 
 import XMonad.Layout.NoBorders
 import XMonad.Layout.MultiColumns
@@ -47,8 +46,8 @@ main = xmonad defaultConfig
         , className =? "Firefox" -?> doShift "2"
 --        , className =? "Taffybar-linux-x86_64" -?> doIgnore
 --        , className =? "Skype" -?> doShift "3"
---        , className =? "utox" -?> doShift "3"
-        , className =? "qTox" -?> doShift "3"
+        , className =? "utox" -?> doShift "3"
+--        , className =? "qTox" -?> doShift "3"
         , className =? "Transmission-gtk" -?> doShift "8"
 --        , className =? "Conky" -?> doIgnore
 --        , className =? "Wine" -?> doFloat
@@ -79,7 +78,7 @@ runCommand = shellPrompt defaultXPConfig
     , fgHLight = "black"
     , borderColor = "cyan"
     , height = 20
-    , font = "xft:DejaVu:pixelsize=12"
+    , font = "xft:DejaVu:pixelsize=12:antialias=true"
     }
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
@@ -157,9 +156,6 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((controlMask, xK_KP_End), spawn "xdotool click 1")
     , ((controlMask, xK_KP_Down), spawn "xdotool click 2")
     , ((controlMask, xK_KP_Page_Down), spawn "xdotool click 3")
-
-    , ((mm, xK_w), prevWS)
-    , ((mm, xK_e), nextWS)
     ]
     ++
     [ ((m .|. mm, k), windows $ f i)
@@ -168,7 +164,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     ]
     ++
     [ ((m .|. mm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_Page_Down, xK_Page_Up] [0..]
+        | (key, sc) <- zip [xK_w, xK_e] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
 
