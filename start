@@ -2,7 +2,7 @@
 xsetroot -cursor_name left_ptr &
 setxkbmap "us+bg(phonetic):2+group(alt_shift_toggle)" &
 synclient {Vert,Horiz}{Edge,TwoFinger}Scroll=1 TapButton{1=1,2=2,3=3} &
-xrdb -merge ~/.xmonad/Xresources & # Automate merge or sth
+xrdb -merge ~/.xmonad/Xresources
 start-pulseaudio-x11 &
 compton -m .9 &
 sh ~/.fehbg &
