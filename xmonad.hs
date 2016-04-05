@@ -88,7 +88,6 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
 
     , ((mm, xK_Return), spawn $ XMonad.terminal conf)
     , ((mm, xK_r), runCommand)
-    , ((mm, xK_backslash), withFocused (sendMessage . maximizeRestore))
 
     , ((mm, xK_space), sendMessage NextLayout)
     , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
