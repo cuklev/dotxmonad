@@ -169,8 +169,27 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
 
 myMouse :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
 myMouse (XConfig {XMonad.modMask = mm}) = M.fromList
-    [ ((mm, button1), (\w -> focus w >> mouseMoveWindow w >> FS.snapMagicMove (Just 20) (Just 20) w))
-    , ((mm .|. shiftMask, button1), (\w -> focus w >> mouseMoveWindow w >> FS.snapMagicResize [FS.L, FS.R, FS.U, FS.D] (Just 20) (Just 20) w))
-    , ((mm, button3), (\w -> focus w >> mouseResizeEdgeWindow 0.5 w))
-    , ((mm .|. shiftMask, button3), (\w -> focus w >> Sqr.mouseResizeWindow w True))
+    [ ((mm, button1), floatMove)
+    , ((mm .|. shiftMask, button1), floatSnapResize)
+    , ((mm, button3), floatResize)
+    , ((mm .|. shiftMask, button3), floatResizeKeepRatio)
     ]
+
+-- float functions
+floatMove w = do
+    focus w
+    mouseMoveWindow w
+    FS.snapMagicMove (Just 20) (Just 20) w
+
+floatSnapResize w = do
+    focus w
+    mouseMoveWindow w
+    FS.snapMagicResize [FS.L, FS.R, FS.U, FS.D] (Just 20) (Just 20) w
+
+floatResize w = do
+    focus w
+    mouseResizeEdgeWindow 0.5 w
+
+floatResizeKeepRatio w = do
+    focus w
+    Sqr.mouseResizeWindow w True
