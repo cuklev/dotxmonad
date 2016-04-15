@@ -103,6 +103,7 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm, xK_F1), spawn "xscreensaver-command -lock")
 --    , ((mm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
 --    , ((mm, xK_F2), withFocused demanage)
+    , ((mm, xK_F2), spawn "killall -q xmobar; exec xmobar ~/.xmonad/xmobar")
     , ((mm, xK_F3), spawn "xmonad --restart")
     , ((mm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
     , ((mm, xK_F5), refresh)
