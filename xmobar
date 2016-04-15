@@ -1,75 +1,74 @@
-Config {
-  font = "xft:Liberation Mono:pixelsize=12:antialias=true"
-  , position = Static
-      { xpos = 0
-      , ypos = 0
-      , width = 1764
-      , height = 24
-      }
-  , alpha = 160
-  , commands =
-    [ Run Kbd
-        [ ("us",           "<fc=#7f7fff>EN</fc>")
-        , ("bg(phonetic)", "<fc=#ffff00>BG</fc>")
-        ]
-    , Run Volume "default" "Master"
-      [ "-t", "<status>"
-      , "--"
-      , "-O", "<fc=#00ff00><volume>%</fc>"
-      , "-o", "<fc=#ff0000><volume>%</fc>"
-      ] 10
-    , Run XMonadLog
-    , Run BatteryP ["BAT1"]
-      [ "-t", "<acstatus>"
-      , "-L", "20", "-H", "90"
-      , "--low", "red"
-      , "--normal", "yellow"
-      , "--high", "green"
-      , "--"
-      , "-O", "<left><fc=#ffffff>%</fc> <fc=#00cfff>~<timeleft></fc>"
-      , "-o", "<left><fc=#ffffff>%</fc> <fc=#ff7f00>~<timeleft></fc>"
-      , "-i", "<fc=#00ff00>AC</fc>"
-      , "-f", "ACAD/online"
-      ] 30
-    , Run Date "<fc=#00ff00>%A</fc> <fc=#ff7f00>%d.%m.%Y %H:%M:%S</fc>" "date" 10
-    , Run DynNetwork
-        [ "-t", "<dev>: <rx>/<tx> KB/s"
-        , "-L", "0", "-H", "256"
-        , "--low", "cyan"
-        , "--normal", "red"
-        , "--high", "green"
-        ] 30
-    , Run Wireless "wlan0"
-        [ "-t", "<fc=#ff003f><essid></fc>: <fc=#7fff00><quality>%</fc>"
-        ] 30
-    , Run Cpu
-        [ "-L", "10", "-H", "50"
-        , "--low", "green"
-        , "--normal", "yellow"
-        , "--high", "red"
-        ] 10
-    , Run CoreTemp
-        [ "-L", "42", "-H", "75"
-        , "--low", "blue"
-        , "--normal", "lightblue"
-        , "--high", "red"
-        ] 10
-    , Run Memory
-        [ "-t", "Ram <used>/<total>M"
-        , "-L", "800", "-H", "4000"
-        , "--low", "green"
-        , "--normal", "yellow"
-        , "--high", "red"
-        ] 10
-    , Run Swap
-        [ "-t", "Swap <used>/<total>M"
-        , "-L", "1", "-H", "100"
-        , "--low", "green"
-        , "--normal", "yellow"
-        , "--high", "red"
-        ] 100
-    ]
-  , sepChar = "%"
-  , alignSep = "}{"
-  , template = " <fc=#ff0000>%XMonadLog%</fc>}{<fc=#ffffff>%cpu% %coretemp%  %memory%  %swap%  <action=`nm-connection-editor`>%dynnetwork%  %wlan0wi%</action> <action=`pavucontrol`>[%default:Master%]</action> [%kbd%]</fc> %battery%  %date% "
+Config { font = "xft:Liberation Mono:pixelsize=12:antialias=true"
+       , position = Static
+           { xpos = 0
+           , ypos = 0
+           , width = 1764
+           , height = 24
+           }
+       , alpha = 160
+       , commands =
+         [ Run Kbd
+             [ ("us",           "<fc=#7f7fff>EN</fc>")
+             , ("bg(phonetic)", "<fc=#ffff00>BG</fc>")
+             ]
+         , Run Volume "default" "Master"
+           [ "-t", "<status>"
+           , "--"
+           , "-O", "<fc=#00ff00><volume>%</fc>"
+           , "-o", "<fc=#ff0000><volume>%</fc>"
+           ] 10
+         , Run XMonadLog
+         , Run BatteryP ["BAT1"]
+           [ "-t", "<acstatus>"
+           , "-L", "20", "-H", "90"
+           , "--low", "red"
+           , "--normal", "yellow"
+           , "--high", "green"
+           , "--"
+           , "-O", "<left><fc=#ffffff>%</fc> <fc=#00cfff>~<timeleft></fc>"
+           , "-o", "<left><fc=#ffffff>%</fc> <fc=#ff7f00>~<timeleft></fc>"
+           , "-i", "<fc=#00ff00>AC</fc>"
+           , "-f", "ACAD/online"
+           ] 30
+         , Run Date "<fc=#00ff00>%A</fc> <fc=#ff7f00>%d.%m.%Y %H:%M:%S</fc>" "date" 10
+         , Run DynNetwork
+             [ "-t", "<dev>: <rx>/<tx> KB/s"
+             , "-L", "0", "-H", "256"
+             , "--low", "cyan"
+             , "--normal", "red"
+             , "--high", "green"
+             ] 30
+         , Run Wireless "wlan0"
+             [ "-t", "<fc=#ff003f><essid></fc>: <fc=#7fff00><quality>%</fc>"
+             ] 30
+         , Run Cpu
+             [ "-L", "10", "-H", "50"
+             , "--low", "green"
+             , "--normal", "yellow"
+             , "--high", "red"
+             ] 10
+         , Run CoreTemp
+             [ "-L", "42", "-H", "75"
+             , "--low", "blue"
+             , "--normal", "lightblue"
+             , "--high", "red"
+             ] 10
+         , Run Memory
+             [ "-t", "Ram <used>/<total>M"
+             , "-L", "800", "-H", "4000"
+             , "--low", "green"
+             , "--normal", "yellow"
+             , "--high", "red"
+             ] 10
+         , Run Swap
+             [ "-t", "Swap <used>/<total>M"
+             , "-L", "1", "-H", "100"
+             , "--low", "green"
+             , "--normal", "yellow"
+             , "--high", "red"
+             ] 100
+         ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " <fc=#ff0000>%XMonadLog%</fc>}{<fc=#ffffff>%cpu% %coretemp%  %memory%  %swap%  <action=`nm-connection-editor`>%dynnetwork%  %wlan0wi%</action> <action=`pavucontrol`>[%default:Master%]</action> [%kbd%]</fc> %battery%  %date% "
 }
