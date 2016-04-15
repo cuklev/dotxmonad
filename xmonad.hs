@@ -32,8 +32,8 @@ import XMonad.Prompt.Shell
 main = xmonad defaultConfig
     { modMask = mod4Mask
     , terminal = "gnome-terminal"
-    , keys = myKeys
-    , mouseBindings = myMouse
+    , keys = keyBindings
+    , mouseBindings = mouseKeyBindings
     , normalBorderColor = "#dddddd"
     , focusedBorderColor = "#0000ff"
     , workspaces = words "1 2 3 4 5 6 7 8 9 0"
@@ -80,8 +80,8 @@ runCommand = shellPrompt defaultXPConfig
     , font = "xft:DejaVu:pixelsize=12:antialias=true"
     }
 
-myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
+keyBindings :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
+keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     [ ((mm, xK_q), kill)
     , ((mm .|. shiftMask, xK_q), kill1)
     , ((mm .|. controlMask, xK_q), kill1)
@@ -167,8 +167,8 @@ myKeys conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
 
-myMouse :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
-myMouse (XConfig {XMonad.modMask = mm}) = M.fromList
+mouseKeyBindings :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
+mouseKeyBindings (XConfig {XMonad.modMask = mm}) = M.fromList
     [ ((mm, button1), floatMove)
     , ((mm .|. shiftMask, button1), floatSnapResize)
     , ((mm, button3), floatResize)
