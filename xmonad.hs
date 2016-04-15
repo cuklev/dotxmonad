@@ -3,19 +3,16 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.PerWindowKbdLayout
-import System.IO
 
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.FlexibleResize
 import qualified XMonad.Actions.FloatSnap as FS
-import XMonad.Actions.DeManage
 import qualified XMonad.Actions.ConstrainedResize as Sqr
 
 import XMonad.Layout.NoBorders
 import XMonad.Layout.MultiColumns
 import XMonad.Layout.TrackFloating
-import XMonad.Layout.LimitWindows
 
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
@@ -127,8 +124,6 @@ keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm, xK_l), sendMessage Expand)
     , ((mm, xK_comma), sendMessage $ IncMasterN 1)
     , ((mm, xK_period), sendMessage $ IncMasterN (-1))
-    , ((mm, xK_i), increaseLimit)
-    , ((mm, xK_o), decreaseLimit)
     , ((mm, xK_t), withFocused $ windows . W.sink)
 
     , ((controlMask .|. mod1Mask, xK_w), spawn "xdotool keydown Super")
