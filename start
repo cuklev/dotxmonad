@@ -10,7 +10,7 @@ sh ~/.fehbg &
 stalonetray -t --tint-color black --tint-level 160 -i 24 --geometry 6x1-0+0 --max-geometry 6x1 --grow-gravity E --icon-gravity NE --scrollbars horizontal &
 gnome-terminal &
 nm-applet &
-gpaste start &
+gpaste-client start &
 xscreensaver -nosplash &
 utox &
 xmobar ~/.xmonad/xmobar &

@@ -95,7 +95,7 @@ keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm, xK_x), spawn "transset --actual --inc .05")
     , ((mm .|. shiftMask, xK_x), spawn "transset --actual 1")
     , ((mm, xK_s), spawn "pavucontrol")
-    , ((mm, xK_c), spawn "gpaste ui")
+    , ((mm, xK_c), spawn "gpaste-client ui")
 
     , ((mm, xK_F1), spawn "xscreensaver-command -lock")
 --    , ((mm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
