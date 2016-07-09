@@ -17,7 +17,7 @@ import XMonad.Layout.TrackFloating
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
-import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
+import XMonad.Hooks.EwmhDesktops (ewmh)
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
@@ -48,7 +48,7 @@ main = xmonad $ ewmh defaultConfig
 --        , className =? "Conky" -?> doIgnore
 --        , className =? "Wine" -?> doFloat
         ]
-    , handleEventHook = perWindowKbdLayout <+> docksEventHook <+> fullscreenEventHook
+    , handleEventHook = perWindowKbdLayout <+> docksEventHook
     , layoutHook = avoidStruts $ lessBorders Screen layout
     , logHook = do
         updatePointer (0.5, 0.5) (0.7, 0.7)
