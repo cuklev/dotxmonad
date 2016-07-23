@@ -34,38 +34,42 @@ main = xmonad $ ewmh defaultConfig
     , normalBorderColor = "#dddddd"
     , focusedBorderColor = "#0000ff"
     , workspaces = words "1 2 3 4 5 6 7 8 9 0"
-    , manageHook = manageDocks <+> composeOne
-        [ isFullscreen -?> doFullFloat
-        , title =? "ettercap" -?> doFloat
-        , isDialog -?> doCenterFloat
---        , className =? "Chromium-browser" -?> doShift "2"
-        , className =? "Firefox" -?> doShift "2"
---        , className =? "Taffybar-linux-x86_64" -?> doIgnore
---        , className =? "Skype" -?> doShift "3"
-        , className =? "utox" -?> doShift "3"
---        , className =? "qTox" -?> doShift "3"
-        , className =? "Transmission-gtk" -?> doShift "8"
---        , className =? "Conky" -?> doIgnore
---        , className =? "Wine" -?> doFloat
-        ]
+    , manageHook = manageDocks <+> composer
     , handleEventHook = perWindowKbdLayout <+> docksEventHook
     , layoutHook = avoidStruts $ lessBorders Screen layout
-    , logHook = do
-        updatePointer (0.5, 0.5) (0.7, 0.7)
-        dynamicLogString xmobarPP
-            { ppTitle = xmobarColor "cyan" "" . shorten 100
-            , ppLayout = xmobarColor "green" ""
-            , ppSep = xmobarColor "gray" "" " | "
-            , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
-            , ppUrgent = xmobarColor "orange" "" . wrap "*" "*"
-            }
-            >>= xmonadPropLog
+    , logHook = myLogHook
     }
 
 layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
+
+myLogHook = do
+    updatePointer (0.5, 0.5) (0.7, 0.7)
+    dynamicLogString xmobarPP
+        { ppTitle = xmobarColor "cyan" "" . shorten 100
+        , ppLayout = xmobarColor "green" ""
+        , ppSep = xmobarColor "gray" "" " | "
+        , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
+        , ppUrgent = xmobarColor "orange" "" . wrap "*" "*"
+        }
+        >>= xmonadPropLog
+
+composer = composeOne
+    [ isFullscreen -?> doFullFloat
+    , title =? "ettercap" -?> doFloat
+    , isDialog -?> doCenterFloat
+--    , className =? "Chromium-browser" -?> doShift "2"
+    , className =? "Firefox" -?> doShift "2"
+--    , className =? "Taffybar-linux-x86_64" -?> doIgnore
+--    , className =? "Skype" -?> doShift "3"
+    , className =? "utox" -?> doShift "3"
+--    , className =? "qTox" -?> doShift "3"
+    , className =? "Transmission-gtk" -?> doShift "8"
+--    , className =? "Conky" -?> doIgnore
+--    , className =? "Wine" -?> doFloat
+    ]
 
 runCommand = shellPrompt defaultXPConfig
     { bgColor = "black"
@@ -169,22 +173,21 @@ mouseKeyBindings (XConfig {XMonad.modMask = mm}) = M.fromList
     , ((mm, button3), floatResize)
     , ((mm .|. shiftMask, button3), floatResizeKeepRatio)
     ]
+    where
+        floatMove w = do
+            focus w
+            mouseMoveWindow w
+            FS.snapMagicMove (Just 20) (Just 20) w
 
--- float functions
-floatMove w = do
-    focus w
-    mouseMoveWindow w
-    FS.snapMagicMove (Just 20) (Just 20) w
+        floatSnapResize w = do
+            focus w
+            mouseMoveWindow w
+            FS.snapMagicResize [FS.L, FS.R, FS.U, FS.D] (Just 20) (Just 20) w
 
-floatSnapResize w = do
-    focus w
-    mouseMoveWindow w
-    FS.snapMagicResize [FS.L, FS.R, FS.U, FS.D] (Just 20) (Just 20) w
+        floatResize w = do
+            focus w
+            mouseResizeEdgeWindow 0.5 w
 
-floatResize w = do
-    focus w
-    mouseResizeEdgeWindow 0.5 w
-
-floatResizeKeepRatio w = do
-    focus w
-    Sqr.mouseResizeWindow w True
+        floatResizeKeepRatio w = do
+            focus w
+            Sqr.mouseResizeWindow w True
