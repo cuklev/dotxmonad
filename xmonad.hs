@@ -17,7 +17,7 @@ import XMonad.Layout.TrackFloating
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
-import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
@@ -35,7 +35,7 @@ main = xmonad $ ewmh defaultConfig
     , focusedBorderColor = "#0000ff"
     , workspaces = words "1 2 3 4 5 6 7 8 9 0"
     , manageHook = manageDocks <+> composer
-    , handleEventHook = perWindowKbdLayout <+> docksEventHook
+    , handleEventHook = perWindowKbdLayout <+> docksEventHook <+> fullscreenEventHook
     , layoutHook = avoidStruts $ lessBorders Screen layout
     , logHook = myLogHook
     }
