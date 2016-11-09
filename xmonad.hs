@@ -13,6 +13,7 @@ import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Layout.NoBorders
 import XMonad.Layout.MultiColumns
 import XMonad.Layout.TrackFloating
+import XMonad.Layout.LimitWindows
 
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
@@ -40,7 +41,7 @@ main = xmonad $ ewmh defaultConfig
     , logHook = myLogHook
     }
 
-layout = tall ||| Mirror tall ||| trackFloating Full ||| mulcol
+layout = limitSelect 1 2 (tall ||| Mirror tall) ||| trackFloating Full ||| mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5
@@ -129,6 +130,9 @@ keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((mm, xK_comma), sendMessage $ IncMasterN 1)
     , ((mm, xK_period), sendMessage $ IncMasterN (-1))
     , ((mm, xK_t), withFocused $ windows . W.sink)
+
+    , ((mm, xK_i), increaseLimit)
+    , ((mm, xK_o), decreaseLimit)
 
     , ((controlMask .|. mod1Mask, xK_w), spawn "xdotool keydown Super")
     , ((mm, xK_v), spawn "xdotool keyup Super")
