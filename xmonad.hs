@@ -35,13 +35,13 @@ main = xmonad $ ewmh defaultConfig
     , normalBorderColor = "#dddddd"
     , focusedBorderColor = "#0000ff"
     , workspaces = words "1 2 3 4 5 6 7 8 9 0"
-    , manageHook = manageDocks <+> composer
-    , handleEventHook = perWindowKbdLayout <+> docksEventHook <+> fullscreenEventHook
-    , layoutHook = avoidStruts $ lessBorders Screen layout
+    , manageHook = composer <+> manageDocks
+    , handleEventHook = perWindowKbdLayout <+> fullscreenEventHook <+> docksEventHook
+    , layoutHook = layout
     , logHook = myLogHook
     }
 
-layout = limitSelect 1 2 (tall ||| Mirror tall) ||| trackFloating Full ||| mulcol
+layout = avoidStruts $ lessBorders Screen $ limitSelect 1 2 (tall ||| Mirror tall) ||| trackFloating Full ||| mulcol
     where
         tall = Tall 1 0.01 0.5
         mulcol = multiCol [1, 3] 4 0.01 0.5

@@ -7,9 +7,6 @@ Config
         , height = 24
         }
     , alpha = 160
-    , overrideRedirect = False
-    , persistent = True
-    , lowerOnStart = True
     , commands =
         [ Run Kbd
             [ ("us",           "<fc=#7f7fff>EN</fc>")
