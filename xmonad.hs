@@ -66,6 +66,7 @@ composer = composeOne
 --    , className =? "Taffybar-linux-x86_64" -?> doIgnore
 --    , className =? "Skype" -?> doShift "3"
     , className =? "utox" -?> doShift "3"
+    , className =? "Pidgin" -?> doShift "3"
 --    , className =? "qTox" -?> doShift "3"
     , className =? "Transmission-gtk" -?> doShift "8"
 --    , className =? "Conky" -?> doIgnore
