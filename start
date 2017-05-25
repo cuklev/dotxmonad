@@ -12,6 +12,7 @@ gnome-terminal &
 nm-applet &
 gpaste-client start &
 xscreensaver -nosplash &
+pidgin &
 utox &
 xmobar ~/.xmonad/xmobar &
 xrandr --setprovideroffloadsink 1 0
