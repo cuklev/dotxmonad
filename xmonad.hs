@@ -83,56 +83,56 @@ runCommand = shellPrompt defaultXPConfig
     }
 
 keyBindings :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
-    [ ((mm, xK_q), kill)
-    , ((mm .|. shiftMask, xK_q), kill1)
-    , ((mm .|. controlMask, xK_q), kill1)
+keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
+    [ ((modm, xK_q), kill)
+    , ((modm .|. shiftMask, xK_q), kill1)
+    , ((modm .|. controlMask, xK_q), kill1)
 
-    , ((mm, xK_Return), spawn $ XMonad.terminal conf)
-    , ((mm, xK_r), runCommand)
+    , ((modm, xK_Return), spawn $ XMonad.terminal conf)
+    , ((modm, xK_r), runCommand)
 
-    , ((mm, xK_space), sendMessage NextLayout)
-    , ((mm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
-    , ((mm, xK_f), sendMessage ToggleStruts)
+    , ((modm, xK_space), sendMessage NextLayout)
+    , ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
+    , ((modm, xK_f), sendMessage ToggleStruts)
 
-    , ((mm, xK_z), spawn "transset --actual --dec .05")
-    , ((mm .|. shiftMask, xK_z), spawn "transset --actual 0")
-    , ((mm, xK_x), spawn "transset --actual --inc .05")
-    , ((mm .|. shiftMask, xK_x), spawn "transset --actual 1")
-    , ((mm, xK_s), spawn "pavucontrol")
-    , ((mm, xK_c), spawn "gpaste-client ui")
+    , ((modm, xK_z), spawn "transset --actual --dec .05")
+    , ((modm .|. shiftMask, xK_z), spawn "transset --actual 0")
+    , ((modm, xK_x), spawn "transset --actual --inc .05")
+    , ((modm .|. shiftMask, xK_x), spawn "transset --actual 1")
+    , ((modm, xK_s), spawn "pavucontrol")
+    , ((modm, xK_c), spawn "gpaste-client ui")
 
-    , ((mm, xK_F1), spawn "xscreensaver-command -lock")
---    , ((mm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
---    , ((mm, xK_F2), withFocused demanage)
-    , ((mm, xK_F2), spawn "killall -q xmobar; exec xmobar ~/.xmonad/xmobar")
-    , ((mm, xK_F3), spawn "xmonad --restart")
-    , ((mm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
-    , ((mm, xK_F5), refresh)
-    , ((mm, xK_F8), spawn "sleep 0.1; xset dpms force off")
-    , ((mm, xK_F9), spawn "xscreensaver-command -lock; systemctl suspend -i")
---    , ((mm, xK_F10), spawn "systemctl hibernate -i")
---    , ((mm, xK_F11), spawn "systemctl reboot -i")
---    , ((mm, xK_F12), spawn "systemctl poweroff -i")
+    , ((modm, xK_F1), spawn "xscreensaver-command -lock")
+--    , ((modm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
+--    , ((modm, xK_F2), withFocused demanage)
+    , ((modm, xK_F2), spawn "killall -q xmobar; exec xmobar ~/.xmonad/xmobar")
+    , ((modm, xK_F3), spawn "xmonad --restart")
+    , ((modm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
+    , ((modm, xK_F5), refresh)
+    , ((modm, xK_F8), spawn "sleep 0.1; xset dpms force off")
+    , ((modm, xK_F9), spawn "xscreensaver-command -lock; systemctl suspend -i")
+--    , ((modm, xK_F10), spawn "systemctl hibernate -i")
+--    , ((modm, xK_F11), spawn "systemctl reboot -i")
+--    , ((modm, xK_F12), spawn "systemctl poweroff -i")
 
-    , ((mm, xK_Tab), windows W.focusDown)
-    , ((mm .|. shiftMask, xK_Tab), windows W.focusUp)
-    , ((mm, xK_k), windows W.focusUp)
-    , ((mm, xK_j), windows W.focusDown)
-    , ((mm, xK_m), windows W.focusMaster)
-    , ((mm .|. shiftMask, xK_k), windows W.swapUp)
-    , ((mm .|. shiftMask, xK_j), windows W.swapDown)
-    , ((mm .|. shiftMask, xK_m), windows W.swapMaster)
+    , ((modm, xK_Tab), windows W.focusDown)
+    , ((modm .|. shiftMask, xK_Tab), windows W.focusUp)
+    , ((modm, xK_k), windows W.focusUp)
+    , ((modm, xK_j), windows W.focusDown)
+    , ((modm, xK_m), windows W.focusMaster)
+    , ((modm .|. shiftMask, xK_k), windows W.swapUp)
+    , ((modm .|. shiftMask, xK_j), windows W.swapDown)
+    , ((modm .|. shiftMask, xK_m), windows W.swapMaster)
 
---    , ((mm, xK_space), windows W.shiftMaster)
-    , ((mm, xK_h), sendMessage Shrink)
-    , ((mm, xK_l), sendMessage Expand)
-    , ((mm, xK_comma), sendMessage $ IncMasterN 1)
-    , ((mm, xK_period), sendMessage $ IncMasterN (-1))
-    , ((mm, xK_t), withFocused $ windows . W.sink)
+--    , ((modm, xK_space), windows W.shiftMaster)
+    , ((modm, xK_h), sendMessage Shrink)
+    , ((modm, xK_l), sendMessage Expand)
+    , ((modm, xK_comma), sendMessage $ IncMasterN 1)
+    , ((modm, xK_period), sendMessage $ IncMasterN (-1))
+    , ((modm, xK_t), withFocused $ windows . W.sink)
 
     , ((controlMask .|. mod1Mask, xK_w), spawn "xdotool keydown Super")
-    , ((mm, xK_v), spawn "xdotool keyup Super")
+    , ((modm, xK_v), spawn "xdotool keyup Super")
 
     , ((0, 0x1008ffa9), spawn "synclient TouchpadOff=$(synclient | grep -c 'TouchpadOff.*0')")
     , ((0, 0x1008ff11), spawn "amixer set Master 5%-")
@@ -145,8 +145,8 @@ keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((0, 0x1008ff02), spawn "xbacklight -inc 10")
     , ((0, 0x1008ff03), spawn "xbacklight -dec 10")
 
-    , ((mm, xK_Down), spawn "pactl set-sink-volume 0 -10%")
-    , ((mm, xK_Up), spawn "pactl set-sink-volume 0 +10%")
+    , ((modm, xK_Down), spawn "pactl set-sink-volume 0 -10%")
+    , ((modm, xK_Up), spawn "pactl set-sink-volume 0 +10%")
 
     , ((controlMask, xK_KP_Left), spawn "xdotool mousemove_relative -- -10 0")
     , ((controlMask, xK_KP_Right), spawn "xdotool mousemove_relative 10 0")
@@ -157,22 +157,22 @@ keyBindings conf@(XConfig {XMonad.modMask = mm}) = M.fromList $
     , ((controlMask, xK_KP_Page_Down), spawn "xdotool click 3")
     ]
     ++
-    [ ((m .|. mm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) $ [xK_1 .. xK_9] ++ [xK_0]
+    [ ((modm .|. m, key), windows $ f i)
+        | (i, key) <- zip (XMonad.workspaces conf) $ [xK_1 .. xK_9] ++ [xK_0]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, controlMask)]
     ]
     ++
-    [ ((m .|. mm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e] [0..]
+    [ ((modm .|. m, key), screenWorkspace screen >>= flip whenJust (windows . f))
+        | (key, screen) <- zip [xK_w, xK_e] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
 
 mouseKeyBindings :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
-mouseKeyBindings (XConfig {XMonad.modMask = mm}) = M.fromList
-    [ ((mm, button1), floatMove)
-    , ((mm .|. shiftMask, button1), floatSnapResize)
-    , ((mm, button3), floatResize)
-    , ((mm .|. shiftMask, button3), floatResizeKeepRatio)
+mouseKeyBindings (XConfig {XMonad.modMask = modm}) = M.fromList
+    [ ((modm, button1), floatMove)
+    , ((modm .|. shiftMask, button1), floatSnapResize)
+    , ((modm, button3), floatResize)
+    , ((modm .|. shiftMask, button3), floatResizeKeepRatio)
     ]
     where
         floatMove w = do
