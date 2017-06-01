@@ -1,5 +1,5 @@
 Config
-    { font = "xft:Liberation Mono:pixelsize=12:antialias=true"
+    { font = "xft:Monospace:pixelsize=12:antialias=true"
     , position = Static
         { xpos = 0
         , ypos = 0
