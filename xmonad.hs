@@ -73,7 +73,8 @@ composer = composeOne
 --    , className =? "Wine" -?> doFloat
     ]
 
-runCommand = shellPrompt defaultXPConfig
+
+promptConfig = defaultXPConfig
     { bgColor = "black"
     , fgColor = "white"
     , bgHLight = "white"
@@ -83,6 +84,7 @@ runCommand = shellPrompt defaultXPConfig
     , font = "xft:DejaVu:pixelsize=12:antialias=true"
     }
 
+
 keyBindings :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm, xK_q), kill)
@@ -90,7 +92,7 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. controlMask, xK_q), kill1)
 
     , ((modm, xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm, xK_r), runCommand)
+    , ((modm, xK_r), shellPrompt promptConfig)
 
     , ((modm, xK_space), sendMessage NextLayout)
     , ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
@@ -160,20 +162,22 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ++
     [ ((modm .|. m, key), windows $ f i)
         | (i, key) <- zip (XMonad.workspaces conf) $ [xK_1 .. xK_9] ++ [xK_0]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, controlMask)]
+        , (m, f) <- workspaceModifiers
     ]
     ++
-    [ ((modm .|. m, xK_p), workspacePrompt def (windows . f))
-        | (m, f) <- [ (0, W.greedyView)
-                    , (shiftMask, W.shift)
-                    , (controlMask, copy)
-                    ]
+    [ ((modm .|. m, xK_p), workspacePrompt promptConfig (windows . f))
+        | (m, f) <- workspaceModifiers
     ]
     ++
     [ ((modm .|. m, key), screenWorkspace screen >>= flip whenJust (windows . f))
         | (key, screen) <- zip [xK_w, xK_e] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
+    where
+        workspaceModifiers = [ (0, W.greedyView)
+                             , (shiftMask, W.shift)
+                             , (controlMask, copy)
+                             ]
 
 mouseKeyBindings :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
 mouseKeyBindings (XConfig {XMonad.modMask = modm}) = M.fromList
