@@ -21,6 +21,7 @@ import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Prompt.Workspace
 
 -- floatnext
 -- position store float
@@ -160,6 +161,13 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. m, key), windows $ f i)
         | (i, key) <- zip (XMonad.workspaces conf) $ [xK_1 .. xK_9] ++ [xK_0]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, controlMask)]
+    ]
+    ++
+    [ ((modm .|. m, xK_p), workspacePrompt def (windows . f))
+        | (m, f) <- [ (0, W.greedyView)
+                    , (shiftMask, W.shift)
+                    , (controlMask, copy)
+                    ]
     ]
     ++
     [ ((modm .|. m, key), screenWorkspace screen >>= flip whenJust (windows . f))
