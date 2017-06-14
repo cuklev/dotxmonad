@@ -98,10 +98,6 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
     , ((modm, xK_f), sendMessage ToggleStruts)
 
-    , ((modm, xK_z), spawn "transset --actual --dec .05")
-    , ((modm .|. shiftMask, xK_z), spawn "transset --actual 0")
-    , ((modm, xK_x), spawn "transset --actual --inc .05")
-    , ((modm .|. shiftMask, xK_x), spawn "transset --actual 1")
     , ((modm, xK_s), spawn "pavucontrol")
     , ((modm, xK_c), spawn "gpaste-client ui")
 
@@ -150,6 +146,11 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     , ((modm, xK_Down), spawn "pactl set-sink-volume 0 -10%")
     , ((modm, xK_Up), spawn "pactl set-sink-volume 0 +10%")
+
+    , ((modm, xK_Page_Down), spawn "transset --actual --dec .05")
+    , ((modm .|. shiftMask, xK_Page_Down), spawn "transset --actual 0")
+    , ((modm, xK_Page_Up), spawn "transset --actual --inc .05")
+    , ((modm .|. shiftMask, xK_Page_Up), spawn "transset --actual 1")
 
     , ((controlMask, xK_KP_Left), spawn "xdotool mousemove_relative -- -10 0")
     , ((controlMask, xK_KP_Right), spawn "xdotool mousemove_relative 10 0")
