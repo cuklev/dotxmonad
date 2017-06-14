@@ -130,9 +130,6 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_period), sendMessage $ IncMasterN (-1))
     , ((modm, xK_t), withFocused $ windows . W.sink)
 
-    , ((controlMask .|. mod1Mask, xK_w), spawn "xdotool keydown Super")
-    , ((modm, xK_v), spawn "xdotool keyup Super")
-
     , ((0, 0x1008ffa9), spawn "synclient TouchpadOff=$(synclient | grep -c 'TouchpadOff.*0')")
     , ((0, 0x1008ff11), spawn "amixer set Master 5%-")
     , ((0, 0x1008ff12), spawn "amixer set Master toggle")
