@@ -93,12 +93,12 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_q), kill1)
     , ((modm .|. controlMask, xK_q), kill1)
 
-    , ((modm, xK_w), addWorkspacePrompt promptConfig)
-    , ((modm .|. shiftMask, xK_w), renameWorkspace promptConfig)
---    , ((modm, xK_e), withWorkspace promptConfig (\w -> windows W.shift w))
+    , ((modm, xK_bracketleft), addWorkspacePrompt promptConfig)
+    , ((modm .|. shiftMask, xK_bracketleft), renameWorkspace promptConfig)
+    , ((modm, xK_bracketright), withWorkspace promptConfig (windows . W.shift))
 
     , ((modm, xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm, xK_r), shellPrompt promptConfig)
+    , ((modm, xK_p), shellPrompt promptConfig)
 
     , ((modm, xK_space), sendMessage NextLayout)
     , ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)
@@ -110,7 +110,7 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_F1), spawn "xscreensaver-command -lock")
 --    , ((modm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
 --    , ((modm, xK_F2), withFocused demanage)
-    , ((modm, xK_F2), spawn "killall -q xmobar; exec xmobar ~/.xmonad/xmobar")
+    , ((modm, xK_F2), spawn "killall -q xmobar; xmobar ~/.xmonad/xmobar & xmobar ~/.xmonad/xmobarR & exit")
     , ((modm, xK_F3), spawn "xmonad --restart")
     , ((modm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
     , ((modm, xK_F5), refresh)
@@ -174,7 +174,7 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ]
     ++
     [ ((modm .|. m, key), screenWorkspace screen >>= flip whenJust (windows . f))
-        | (key, screen) <- zip [xK_bracketleft, xK_bracketright, xK_backslash] [0..]
+        | (key, screen) <- zip [xK_w, xK_e, xK_r] [0..]
         , (m, f) <- screenModifiers
     ]
     where
