@@ -169,7 +169,7 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         , (m, f) <- workspaceModifiers
     ]
     ++
-    [ ((modm .|. m, xK_p), workspacePrompt promptConfig { autoComplete = Just 10 } (windows . f))
+    [ ((modm .|. m, xK_o), workspacePrompt promptConfig { autoComplete = Just 10 } (windows . f))
         | (m, f) <- workspaceModifiers
     ]
     ++
