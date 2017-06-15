@@ -10,6 +10,7 @@ import XMonad.Actions.FlexibleResize
 import qualified XMonad.Actions.FloatSnap as FS
 import qualified XMonad.Actions.ConstrainedResize as Sqr
 import XMonad.Actions.DynamicWorkspaces
+import XMonad.Actions.CycleWS
 
 import XMonad.Layout.NoBorders
 import XMonad.Layout.MultiColumns
@@ -96,6 +97,9 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_bracketleft), addWorkspacePrompt promptConfig)
     , ((modm .|. shiftMask, xK_bracketleft), renameWorkspace promptConfig)
     , ((modm, xK_bracketright), withWorkspace promptConfig (windows . W.shift))
+    , ((modm, xK_BackSpace), removeEmptyWorkspace)
+
+    , ((modm, xK_grave), toggleWS)
 
     , ((modm, xK_Return), spawn $ XMonad.terminal conf)
     , ((modm, xK_p), shellPrompt promptConfig)
