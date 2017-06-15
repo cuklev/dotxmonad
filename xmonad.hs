@@ -114,7 +114,7 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm, xK_F1), spawn "xscreensaver-command -lock")
 --    , ((modm .|. shiftMask, xK_F1), spawn "xautolock -toggle")
 --    , ((modm, xK_F2), withFocused demanage)
-    , ((modm, xK_F2), spawn "killall -q xmobar; xmobar ~/.xmonad/xmobar & xmobar ~/.xmonad/xmobarR & exit")
+    , ((modm, xK_F2), spawn "killall -q xmobar; exec xmobar ~/.xmonad/xmobar")
     , ((modm, xK_F3), spawn "xmonad --restart")
     , ((modm, xK_F4), spawn "xmonad --recompile && xmonad --restart")
     , ((modm, xK_F5), refresh)
