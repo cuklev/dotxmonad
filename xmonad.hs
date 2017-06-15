@@ -9,6 +9,7 @@ import XMonad.Actions.UpdatePointer
 import XMonad.Actions.FlexibleResize
 import qualified XMonad.Actions.FloatSnap as FS
 import qualified XMonad.Actions.ConstrainedResize as Sqr
+import XMonad.Actions.DynamicWorkspaces
 
 import XMonad.Layout.NoBorders
 import XMonad.Layout.MultiColumns
@@ -80,8 +81,9 @@ promptConfig = defaultXPConfig
     , bgHLight = "white"
     , fgHLight = "black"
     , borderColor = "cyan"
-    , height = 20
-    , font = "xft:DejaVu:pixelsize=12:antialias=true"
+    , height = 24
+    , font = "xft:Monospace:pixelsize=14:antialias=true"
+    , position = Top
     }
 
 
@@ -90,6 +92,10 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm, xK_q), kill)
     , ((modm .|. shiftMask, xK_q), kill1)
     , ((modm .|. controlMask, xK_q), kill1)
+
+    , ((modm, xK_w), addWorkspacePrompt promptConfig)
+    , ((modm .|. shiftMask, xK_w), renameWorkspace promptConfig)
+--    , ((modm, xK_e), withWorkspace promptConfig (\w -> windows W.shift w))
 
     , ((modm, xK_Return), spawn $ XMonad.terminal conf)
     , ((modm, xK_r), shellPrompt promptConfig)
@@ -163,7 +169,7 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         , (m, f) <- workspaceModifiers
     ]
     ++
-    [ ((modm .|. m, xK_p), workspacePrompt promptConfig (windows . f))
+    [ ((modm .|. m, xK_p), workspacePrompt promptConfig { autoComplete = Just 10 } (windows . f))
         | (m, f) <- workspaceModifiers
     ]
     ++
