@@ -31,7 +31,7 @@ import XMonad.Prompt.Workspace
 
 main = xmonad $ ewmh defaultConfig
     { modMask = mod4Mask
-    , terminal = "gnome-terminal"
+    , terminal = "roxterm"
     , keys = keyBindings
     , mouseBindings = mouseKeyBindings
     , normalBorderColor = "#dddddd"
