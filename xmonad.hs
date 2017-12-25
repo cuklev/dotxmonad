@@ -65,6 +65,7 @@ composer = composeOne
     , isDialog -?> doCenterFloat
 --    , className =? "Chromium-browser" -?> doShift "2"
     , className =? "Firefox" -?> doShift "2"
+    , className =? "Firefox Developer Edition" -?> doShift "2"
 --    , className =? "Taffybar-linux-x86_64" -?> doIgnore
 --    , className =? "Skype" -?> doShift "3"
     , className =? "utox" -?> doShift "3"
