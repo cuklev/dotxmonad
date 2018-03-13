@@ -9,7 +9,6 @@ import XMonad.Actions.UpdatePointer
 import XMonad.Actions.FlexibleResize
 import qualified XMonad.Actions.FloatSnap as FS
 import qualified XMonad.Actions.ConstrainedResize as Sqr
-import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.CycleWS
 
 import XMonad.Layout.NoBorders
@@ -23,7 +22,6 @@ import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 
 import XMonad.Prompt
 import XMonad.Prompt.Shell
-import XMonad.Prompt.Workspace
 
 -- floatnext
 -- position store float
@@ -94,11 +92,6 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm, xK_q), kill)
     , ((modm .|. shiftMask, xK_q), kill1)
     , ((modm .|. controlMask, xK_q), kill1)
-
-    , ((modm, xK_bracketleft), addWorkspacePrompt promptConfig)
-    , ((modm .|. shiftMask, xK_bracketleft), renameWorkspace promptConfig)
-    , ((modm, xK_bracketright), withWorkspace promptConfig (windows . W.shift))
-    , ((modm, xK_BackSpace), removeEmptyWorkspace)
 
     , ((modm, xK_grave), toggleWS)
 
@@ -172,10 +165,6 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. m, key), windows $ f i)
         | (i, key) <- zip (XMonad.workspaces conf) $ [xK_1 .. xK_9] ++ [xK_0]
         , (m, f) <- workspaceModifiers
-    ]
-    ++
-    [ ((modm .|. m, xK_o), workspacePrompt promptConfig { autoComplete = Just 10 } (windows . f))
-        | (m, f) <- workspaceModifiers
     ]
     ++
     [ ((modm .|. m, key), screenWorkspace screen >>= flip whenJust (windows . f))
