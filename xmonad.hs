@@ -159,6 +159,9 @@ keyBindings conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((controlMask, xK_KP_End), spawn "xdotool click 1")
     , ((controlMask, xK_KP_Down), spawn "xdotool click 2")
     , ((controlMask, xK_KP_Page_Down), spawn "xdotool click 3")
+
+    , ((0, xK_Print), spawn "scrot $HOME/Pictures/screenshots/%Y-%m-%d-%H:%M:%S.png")
+    , ((shiftMask, xK_Print), spawn "scrot -s $HOME/Pictures/screenshots/%Y-%m-%d-%H:%M:%S.png")
     ]
     ++
     [ ((modm .|. m, key), windows $ f i)
